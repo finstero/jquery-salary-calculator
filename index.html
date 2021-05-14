@@ -20,19 +20,19 @@
         <section>
             <h2>Add Employee</h2>
             <label for="firstNameIn"></label>
-            <input id="firstNameIn" type="text" placeholder="First Name">
+            <input id="firstNameIn" class="input" type="text" placeholder="First Name">
 
             <label for="lastNameIn"></label>
-            <input id="lastNameIn" type="text" placeholder="Last Name">
+            <input id="lastNameIn" class="input" type="text" placeholder="Last Name">
 
             <label for="idIn"></label>
-            <input id="idIn" type="text" placeholder="ID">
+            <input id="idIn" class="input" type="text" placeholder="ID">
 
             <label for="titleIn"></label>
-            <input id="titleIn" type="text" placeholder="Title">
+            <input id="titleIn" class="input" type="text" placeholder="Title">
 
             <label for="salaryIn"></label>
-            <input id="salaryIn" type="text" placeholder="Annual Salary">
+            <input id="salaryIn" class="input" type="text" placeholder="Annual Salary">
 
             <button id="submitButton">Submit</button>
         </section>
@@ -43,12 +43,12 @@
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">ID</th>
-                    <th scope="col">Title</th>
+                    <th scope="col">Job Title</th>
                     <th scope="col">Annual Salary</th>
                     <th scope="col">Fill er</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
                 <tr>
                     <td scope="row">Mark</td>
                     <td>Practice Last</td>
@@ -57,17 +57,9 @@
                     <td>emptySalary</td>
                     <td>empty delete buttons</td>
                 </tr>
-
-
-
             </tbody>
-
-
-
-
         </table>
-
-
+        <h3 id="toChange">Total Monthly Costs: <span id="monthlyCost"></span></h3>
     </div>
 </body>
 
