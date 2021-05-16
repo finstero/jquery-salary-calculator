@@ -7,9 +7,8 @@ function readyNow() {
     $('#submitButton').on('click', handleSubmit);
     $('#tableBody').on('click', '.deleteButton', handleDelete);
 }
-
+//global employees array to store employee objects
 let employees = [];
-let yearlyCost = 0;
 
 //take in values from inputs on click of submit button and display on DOM
 function handleSubmit() {
@@ -21,24 +20,31 @@ function handleSubmit() {
         title: $('#titleIn').val(),
         salary: $('#salaryIn').val(),
     }
-    //add single employee/person to array of all employees
-    employees.push(person);
-    //run calculateCost function to calculate and display monthly costs at bottom
-    calculateCost();
+    //if else to ensure a salary is input. allows not including other information.
+    //If doing a real world app I think I would ask client what they preferred.
+    if(!person.salary.length){
+        alert("Please make sure you include an annual salary");
+    }
+    else{
+         //add single employee/person to array of all employees
+        employees.push(person);
+            //run calculateCost function to calculate and display monthly costs at bottom
+        calculateCost();
 
-    //append info from above into appropriate table position, assigning class to elements where needed
-    $('#tableBody').append(`
-        <tr class="personInput">
-            <td scope="row">${person.firstName}</td>
-            <td>${person.lastName}</td>
-            <td class ="id">${person.id}</td>
-            <td>${person.title}</td>
-            <td class="salary">$<span>${person.salary}</span></td>
-            <td>
-                <button class="deleteButton">Delete</button>
-            </td>
-        </tr>`)
-
+        //append info from above into appropriate table position, assigning class to elements where needed
+        $('#tableBody').append(`
+            <tr class="personInput">
+                <td scope="row">${person.firstName}</td>
+                <td>${person.lastName}</td>
+                <td class ="id">${person.id}</td>
+                <td>${person.title}</td>
+                <td class="salary">$<span>${person.salary}</span></td>
+                <td>
+                    <button class="deleteButton btn btn-light meBtn">Delete</button>
+                </td>
+            </tr>`)
+    }
+    console.log('only if includes salary', employees);
     //clear inputs
     $('#firstNameIn').val('');
     $('#lastNameIn').val('');
@@ -55,36 +61,44 @@ function calculateCost(){
     for (person of employees){
         yearlyCost += Number(person.salary);
     }
-    //get monthly cost
+    //get monthly cost and round to two decimals
     let monthlyCost = yearlyCost/12;
+    let roundedMonthly = roundTwoDecimals(monthlyCost, 2);
     //display monthly cost to DOM
-    $('#monthlyCost').text(`${monthlyCost}`);
+    $('#monthlyCost').text(`${roundedMonthly}`);
+    // console.log('un rounded monthly is: ', monthlyCost);
     //if monthly cost over number, set background of  to red
-    if (monthlyCost >= 20000){
+    if (roundedMonthly >= 20000){
         $('#monthlyCost').addClass('redBackground');
+        //pop up to alert user of monthly cost
+        alert('Monthly costs have exceeded $20,000');
     }
     // console.log('calculate cost: yearly cost:', yearlyCost);
-} 
+}
 
 // on click of delete button, delete respective employee from DOM and array, and update total monthly cost 
 function handleDelete(){
     // assign id of deleted employee to a string. using id rather than salary so splice will work properly
     let deletedId = $(this).parent().siblings('.id').text(); //is there a simpler way to DOM traverse here?
+
     // delete html
     $(this).closest('.personInput').remove();
     
-    //re calculates monthly cost KEEPING IN FOR MY OWN REFERENCE this doesn't work well because array still exists
-    // let yearlyCost = calculateCost() - deletedSalary;
-    // let monthlyCost = yearlyCost/12;
-    // $('#monthlyCost').text(`${monthlyCost}`);
-
-    //delete person in array and re run calculate cost function
+    //delete respective employee by matched id.
     //using id because that should be unique. salary might not be unique.
     for (let i = 0; i<employees.length; i++){
         if(employees[i].id == deletedId){
-            employees.splice(i, 1);
+            employees.splice(i, 1); 
         }
     }
+    //re run calculate cost function
     calculateCost();
     // console.log('hopefully updated array', employees);
+}
+// function to round monthly cost correctly. Taken from: https://stackoverflow.com/questions/6134039/format-number-to-always-show-2-decimal-places
+// did some research on rounding and it appears to be fairly difficult! used this answer because
+// there was some consensus that it worked consistently unlike a lot of other options
+// if there's an easier way to round, that would be great to know!
+function roundTwoDecimals(value, decimals) {
+    return Number(Math.round(value +'e'+ decimals) +'e-'+ decimals).toFixed(decimals);
 }

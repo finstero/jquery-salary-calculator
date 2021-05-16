@@ -1,9 +1,31 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
 
-#container{
-    max-width: 960px;
-    margin: auto;
+h1{
+  text-align: center;  
+  background-color: #D0F0C0;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.inputSection{
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.meBtn{
+    background-color:#D0F0C0;
+    color: white;
 }
 
 .redBackground{
     background-color: red;
+}
+
+h3{
+    text-align: right;
+    margin-right: 50px;
 }
